@@ -1,7 +1,11 @@
 import { Check, Star } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 
 const Pricing = () => {
+  const { ref: headerRef, isVisible: headerVisible } = useScrollAnimation();
+  const { ref: gridRef, isVisible: gridVisible } = useScrollAnimation({ threshold: 0.1 });
+
   const plans = [
     {
       name: "Starter",
@@ -56,7 +60,10 @@ const Pricing = () => {
     <section id="pricing" className="py-24 md:py-32 bg-gradient-dark">
       <div className="container mx-auto px-4 md:px-6">
         {/* Header */}
-        <div className="text-center max-w-3xl mx-auto mb-16">
+        <div
+          ref={headerRef}
+          className={`text-center max-w-3xl mx-auto mb-16 scroll-fade-up ${headerVisible ? "visible" : ""}`}
+        >
           <span className="inline-block px-4 py-1.5 rounded-full text-sm font-medium bg-primary/10 text-primary mb-4">
             Membership Plans
           </span>
@@ -70,11 +77,11 @@ const Pricing = () => {
         </div>
 
         {/* Pricing Grid */}
-        <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+        <div ref={gridRef} className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
           {plans.map((plan, index) => (
             <div
               key={index}
-              className={`relative bg-gradient-card rounded-2xl p-8 border transition-all duration-500 hover-lift ${
+              className={`relative bg-gradient-card rounded-2xl p-8 border transition-all duration-500 hover-lift scroll-fade-up stagger-${index + 1} ${gridVisible ? "visible" : ""} ${
                 plan.popular
                   ? "border-primary shadow-glow scale-105 md:scale-110"
                   : "border-border hover:border-primary/50"

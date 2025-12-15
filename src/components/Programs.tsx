@@ -1,7 +1,11 @@
 import { Flame, Dumbbell, Heart, Zap, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 
 const Programs = () => {
+  const { ref: headerRef, isVisible: headerVisible } = useScrollAnimation();
+  const { ref: gridRef, isVisible: gridVisible } = useScrollAnimation({ threshold: 0.05 });
+
   const programs = [
     {
       icon: Flame,
@@ -41,7 +45,10 @@ const Programs = () => {
     <section id="programs" className="py-24 md:py-32 bg-gradient-dark">
       <div className="container mx-auto px-4 md:px-6">
         {/* Header */}
-        <div className="text-center max-w-3xl mx-auto mb-16">
+        <div
+          ref={headerRef}
+          className={`text-center max-w-3xl mx-auto mb-16 scroll-fade-up ${headerVisible ? "visible" : ""}`}
+        >
           <span className="inline-block px-4 py-1.5 rounded-full text-sm font-medium bg-primary/10 text-primary mb-4">
             Our Programs
           </span>
@@ -55,11 +62,11 @@ const Programs = () => {
         </div>
 
         {/* Programs Grid */}
-        <div className="grid md:grid-cols-2 gap-6">
+        <div ref={gridRef} className="grid md:grid-cols-2 gap-6">
           {programs.map((program, index) => (
             <div
               key={index}
-              className="group relative bg-gradient-card rounded-2xl p-8 border border-border hover:border-primary/50 transition-all duration-500 hover-lift overflow-hidden"
+              className={`group relative bg-gradient-card rounded-2xl p-8 border border-border hover:border-primary/50 transition-all duration-500 hover-lift overflow-hidden scroll-fade-up stagger-${index + 1} ${gridVisible ? "visible" : ""}`}
             >
               {/* Background glow */}
               <div

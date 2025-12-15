@@ -1,7 +1,10 @@
 import { Button } from "@/components/ui/button";
 import { ArrowRight, CheckCircle2 } from "lucide-react";
+import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 
 const CTA = () => {
+  const { ref, isVisible } = useScrollAnimation();
+
   const benefits = [
     "Free fitness assessment",
     "Personalized workout plan",
@@ -18,7 +21,10 @@ const CTA = () => {
       </div>
 
       <div className="container relative mx-auto px-4 md:px-6">
-        <div className="max-w-4xl mx-auto text-center">
+        <div
+          ref={ref}
+          className={`max-w-4xl mx-auto text-center scroll-scale ${isVisible ? "visible" : ""}`}
+        >
           {/* Badge */}
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 mb-8">
             <span className="w-2 h-2 rounded-full bg-primary animate-pulse" />
