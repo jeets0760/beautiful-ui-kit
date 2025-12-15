@@ -1,9 +1,13 @@
 import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Menu, X, Dumbbell } from "lucide-react";
+import { useAuth } from "@/contexts/AuthContext";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const { user } = useAuth();
+  const navigate = useNavigate();
 
   const navLinks = [
     { name: "Home", href: "#home" },
@@ -44,12 +48,20 @@ const Navbar = () => {
 
           {/* Desktop CTA */}
           <div className="hidden md:flex items-center gap-4">
-            <Button variant="ghost" size="sm">
-              Log In
-            </Button>
-            <Button variant="hero" size="sm">
-              Start Free Trial
-            </Button>
+            {user ? (
+              <Button variant="hero" size="sm" onClick={() => navigate("/dashboard")}>
+                Dashboard
+              </Button>
+            ) : (
+              <>
+                <Button variant="ghost" size="sm" onClick={() => navigate("/auth")}>
+                  Log In
+                </Button>
+                <Button variant="hero" size="sm" onClick={() => navigate("/auth")}>
+                  Start Free Trial
+                </Button>
+              </>
+            )}
           </div>
 
           {/* Mobile Menu Button */}
@@ -80,12 +92,20 @@ const Navbar = () => {
             </a>
           ))}
           <div className="flex flex-col gap-3 pt-4 border-t border-border">
-            <Button variant="ghost" className="w-full">
-              Log In
-            </Button>
-            <Button variant="hero" className="w-full">
-              Start Free Trial
-            </Button>
+            {user ? (
+              <Button variant="hero" className="w-full" onClick={() => navigate("/dashboard")}>
+                Dashboard
+              </Button>
+            ) : (
+              <>
+                <Button variant="ghost" className="w-full" onClick={() => navigate("/auth")}>
+                  Log In
+                </Button>
+                <Button variant="hero" className="w-full" onClick={() => navigate("/auth")}>
+                  Start Free Trial
+                </Button>
+              </>
+            )}
           </div>
         </div>
       </div>

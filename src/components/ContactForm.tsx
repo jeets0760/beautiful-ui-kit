@@ -6,6 +6,7 @@ import { useToast } from "@/hooks/use-toast";
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 import { Send, MapPin, Phone, Mail, Clock, CheckCircle2 } from "lucide-react";
 import { z } from "zod";
+import { supabase } from "@/integrations/supabase/client";
 
 const contactSchema = z.object({
   name: z.string().trim().min(2, "Name must be at least 2 characters").max(100, "Name is too long"),
@@ -56,8 +57,17 @@ const ContactForm = () => {
       // Validate form data
       const validatedData = contactSchema.parse(formData);
       
-      // Simulate API call
-      await new Promise((resolve) => setTimeout(resolve, 1500));
+      // Save to database
+      const { error: dbError } = await supabase
+        .from("contact_submissions")
+        .insert({
+          name: validatedData.name,
+          email: validatedData.email,
+          phone: validatedData.phone || null,
+          message: validatedData.message,
+        });
+
+      if (dbError) throw dbError;
       
       // Success
       setIsSubmitted(true);

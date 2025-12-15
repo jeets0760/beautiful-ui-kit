@@ -14,7 +14,128 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      contact_submissions: {
+        Row: {
+          created_at: string
+          email: string
+          id: string
+          message: string
+          name: string
+          phone: string | null
+        }
+        Insert: {
+          created_at?: string
+          email: string
+          id?: string
+          message: string
+          name: string
+          phone?: string | null
+        }
+        Update: {
+          created_at?: string
+          email?: string
+          id?: string
+          message?: string
+          name?: string
+          phone?: string | null
+        }
+        Relationships: []
+      }
+      profiles: {
+        Row: {
+          avatar_url: string | null
+          created_at: string
+          full_name: string | null
+          id: string
+          phone: string | null
+          updated_at: string
+        }
+        Insert: {
+          avatar_url?: string | null
+          created_at?: string
+          full_name?: string | null
+          id: string
+          phone?: string | null
+          updated_at?: string
+        }
+        Update: {
+          avatar_url?: string | null
+          created_at?: string
+          full_name?: string | null
+          id?: string
+          phone?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      programs: {
+        Row: {
+          color: string
+          created_at: string
+          description: string | null
+          duration: string | null
+          icon: string
+          id: string
+          name: string
+          price: number
+          sessions: string | null
+        }
+        Insert: {
+          color?: string
+          created_at?: string
+          description?: string | null
+          duration?: string | null
+          icon?: string
+          id?: string
+          name: string
+          price?: number
+          sessions?: string | null
+        }
+        Update: {
+          color?: string
+          created_at?: string
+          description?: string | null
+          duration?: string | null
+          icon?: string
+          id?: string
+          name?: string
+          price?: number
+          sessions?: string | null
+        }
+        Relationships: []
+      }
+      user_enrollments: {
+        Row: {
+          enrolled_at: string
+          id: string
+          program_id: string
+          status: string
+          user_id: string
+        }
+        Insert: {
+          enrolled_at?: string
+          id?: string
+          program_id: string
+          status?: string
+          user_id: string
+        }
+        Update: {
+          enrolled_at?: string
+          id?: string
+          program_id?: string
+          status?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "user_enrollments_program_id_fkey"
+            columns: ["program_id"]
+            isOneToOne: false
+            referencedRelation: "programs"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
