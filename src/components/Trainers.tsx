@@ -1,9 +1,13 @@
 import { Instagram, Twitter, Linkedin } from "lucide-react";
+import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 import trainer1 from "@/assets/trainer-1.jpg";
 import trainer2 from "@/assets/trainer-2.jpg";
 import trainer3 from "@/assets/trainer-3.jpg";
 
 const Trainers = () => {
+  const { ref: headerRef, isVisible: headerVisible } = useScrollAnimation();
+  const { ref: gridRef, isVisible: gridVisible } = useScrollAnimation({ threshold: 0.1 });
+
   const trainers = [
     {
       name: "Marcus Johnson",
@@ -35,7 +39,10 @@ const Trainers = () => {
     <section id="trainers" className="py-24 md:py-32">
       <div className="container mx-auto px-4 md:px-6">
         {/* Header */}
-        <div className="text-center max-w-3xl mx-auto mb-16">
+        <div
+          ref={headerRef}
+          className={`text-center max-w-3xl mx-auto mb-16 scroll-fade-up ${headerVisible ? "visible" : ""}`}
+        >
           <span className="inline-block px-4 py-1.5 rounded-full text-sm font-medium bg-primary/10 text-primary mb-4">
             Expert Team
           </span>
@@ -49,11 +56,11 @@ const Trainers = () => {
         </div>
 
         {/* Trainers Grid */}
-        <div className="grid md:grid-cols-3 gap-8">
+        <div ref={gridRef} className="grid md:grid-cols-3 gap-8">
           {trainers.map((trainer, index) => (
             <div
               key={index}
-              className="group relative bg-gradient-card rounded-2xl overflow-hidden border border-border hover:border-primary/50 transition-all duration-500 hover-lift"
+              className={`group relative bg-gradient-card rounded-2xl overflow-hidden border border-border hover:border-primary/50 transition-all duration-500 hover-lift scroll-scale stagger-${index + 1} ${gridVisible ? "visible" : ""}`}
             >
               {/* Image */}
               <div className="relative h-80 overflow-hidden">
